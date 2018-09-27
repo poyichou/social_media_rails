@@ -16,7 +16,7 @@
   <%= f.submit "Sign up" %>
 <% end %>
 
-<%= form_for @user, :url => users_login_path do |f| %>
+<%= form_for @user, :url => login_users_path do |f| %>
   <%=f.label :name, "User name" %>
   <%=f.text_field :name %>
 
