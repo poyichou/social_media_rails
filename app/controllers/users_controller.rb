@@ -56,6 +56,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def logout
+    session[:user9487] = nil
+      redirect_to user_index_path
+  end
+
   def create
     newuser = new_user_params
     if @user.nil?
