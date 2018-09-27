@@ -92,8 +92,8 @@ class UsersController < ApplicationController
   def destroy
     # destroy a user and his posts
     @posts = @user.posts
-    if @posts
-      @post.destroy
+    unless @posts.nil?
+      @posts.destroy
     end
     @user.destroy
     store_user(nil)
@@ -119,6 +119,7 @@ class UsersController < ApplicationController
   end
   def load_messages
     @messages = session[:message87]
+    session[:message87] = nil
   end
 
   def store_messages(messages)
