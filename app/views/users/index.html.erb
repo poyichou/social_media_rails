@@ -15,6 +15,7 @@ Welcome <%= @user.name %>
   <li>
    Date: <%= post.created_at %>
    Content: <%= simple_format(post.content) %>
+   <%= link_to 'delete this post', delete_post_users_path(post), method: :delete, data: { confirm: "Are you sure to delete this post?" } %>
   </li>
  <% end %>
 </url>

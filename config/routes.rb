@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       post :login
       post :logout
       post :add_post
-      #post :delete_post
+      delete 'delete_post/:id' => 'users#delete_post', :as => "delete_post"
     end
   end
   #post "/users/login", to: "users#login"

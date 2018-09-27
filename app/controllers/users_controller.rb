@@ -89,6 +89,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def delete_post
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to users_path
+  end
+
   def destroy
     # destroy a user and his posts
     @posts = @user.posts
