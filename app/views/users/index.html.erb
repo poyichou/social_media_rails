@@ -4,7 +4,7 @@ Welcome <%= user.name %>
 <%= link_to 'log out', user_logout_path, method: :post, data: { confirm: "Are you sure to log out?" } %>
 <%= link_to 'delete your account ',users_path, method: :delete, data: { confirm: "Are you sure to delete your account?" } %>
 
-<%= form_for @post, :url => user_add_post_path do |f| %>
+<%= form_for @post, :url => users_add_post_path do |f| %>
   <%=f.label :content, "What's on your mind?" %>
   <%=f.text_field :content %>
 

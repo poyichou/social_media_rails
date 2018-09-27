@@ -1,25 +1,26 @@
 class UsersController < ApplicationController
-  before_action :load_message, :only => [:index, :edit, :new]
+  before_action :load_messages, :only => [:index, :edit, :new]
   before_action :load_user, :only => [:add_post, :update, :create, :destroy]
   def index
     # has not logged in 
     if session[:user9487].nil?
       redirect_to new_user_path
     else
-      @user = User.where("name = ?", session[:user9487][:user_info][:name])
+      @user = session[:user9487]
+      puts "@user=#{@user}"
       @user_posts = @user.posts
     end
   end
 
   def edit
     # edit password
-    @user = User.where("name = ?", session[:user9487][:user_info][:name])
+    @user = session[:user9487]
   end
 
   def add_post
     @user.posts.build(params.require(:post).permit(:content))
     unless @user.save
-        store_message(@user.errors.full_messages)
+        store_messages(@user.errors.full_messages)
     end
     redirect_to users_path
   end
@@ -31,27 +32,28 @@ class UsersController < ApplicationController
       if @user.update_attributes(password: change_content[:new_password])
         redirect_to users_path
       else
-        store_message(@user.errors.full_messages)
+        store_messages(@user.errors.full_messages)
         redirect_to edit_user_path
       end
     else
-      store_message(["Password and password confirmation no the same"])
+      store_messages(["Password and password confirmation no the same"])
       redirect_to edit_user_path
     end
   end
   
   def new
+    @user = User.new
   end
 
   def login
-    @loginer = login_params
+    loginer = login_params
     @user = User.where("name = :name AND password = :password", {name: loginer[:name], password: loginer[:password]}).first
     if @user.nil?
       # note found
-      store_message(["Wrong user name or password"])
+      store_messages(["Wrong user name or password"])
       redirect_to new_user_path
     else
-      session[:user9487] = serialize(@user)
+      session[:user9487] = @user
       redirect_to users_path
     end
   end
@@ -69,20 +71,20 @@ class UsersController < ApplicationController
         # success
         @user = User.new(:name => newuser[:name], :email => newuser[:email], :password => newuser[:password])
         if @user.save
-          session[:user9487] = serialize(@user)
+          session[:user9487] = @user
           redirect_to users_path
         else
           # save fail
-          store_message(@user.errors.full_messages)
+          store_messages(@user.errors.full_messages)
           redirect_to new_user_path
         end
       else
         # password and password_confirm not the same
-        store_message(["password and password confirmation are not the same"])
+        store_messages(["password and password confirmation are not the same"])
         redirect_to new_user_path
       end
     else
-        store_message(["user exists!!"])
+        store_messages(["user exists!!"])
         redirect_to new_user_path
     end
   end
@@ -101,7 +103,7 @@ class UsersController < ApplicationController
   private
 
   def load_user
-    @user = User.where("name = ?", session[:user9487][:user_info][:name])
+    @user = session[:user9487]
   end
   def load_messages
     if not session[:message87].nil?
@@ -115,21 +117,16 @@ class UsersController < ApplicationController
     end
   end
 
-  def store_message(messages)
+  def store_messages(messages)
         session[:message87] = serialize_error(messages)
   end
 
   def new_user_params
-    params.require(:newuser).permit(:name, :email, :password, :password_confirm)
+    params.require(:user).permit(:name, :email, :password, :password_confirm)
   end
 
   def login_params
-    params.require(:login).permit(:name, :password)
-  end
-
-  def serialize(user)
-    user_info = { :name => user.name, :email => user.email }
-    { :user_info => user_info }
+    params.require(:user).permit(:name, :password)
   end
 
   def serialize_error(messages)

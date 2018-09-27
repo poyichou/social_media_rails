@@ -1,4 +1,4 @@
 class Post < ApplicationRecord
-  belong_to :user
+  belongs_to :user
   validates_presence_of :content
 end
