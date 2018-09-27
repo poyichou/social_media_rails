@@ -5,17 +5,17 @@ Welcome <%= @user.name %>
 <%= link_to 'delete your account', user_path(@user), method: :delete, data: { confirm: "Are you sure to delete your account?" } %>
 
 <%= form_for @post, :url => add_post_users_path do |f| %>
-  <%=f.label :content, "What's on your mind?" %>
-  <%=f.text_field :content %>
+  <%=f.label :content, "What's on your mind?" %><br>
+  <%=f.text_area :content %>
 
   <%= f.submit "Post" %>
 <% end %>
 <url>
  <% @user_posts.each do |post| %>
   <li>
-   Date: <%= post.created_at %>
-   Content: <%= simple_format(post.content) %>
+   [Date: <%= post.created_at %>]
+   <%= simple_format(post.content) %>
    <%= link_to 'delete this post', delete_post_users_path(post), method: :delete, data: { confirm: "Are you sure to delete this post?" } %>
-  </li>
+  </li><br>
  <% end %>
 </url>
