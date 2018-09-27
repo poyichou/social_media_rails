@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     unless @user.save
         store_message(@user.errors.full_messages)
     end
-    redirect_to user_index_path
+    redirect_to users_path
   end
 
   def update
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     change_content = params.require(:user).permit(:old_password, :new_password, :password_confirm)
     if change_content[:new_password].eql? change_content[:password_confirm]
       if @user.update_attributes(password: change_content[:new_password])
-        redirect_to user_index_path
+        redirect_to users_path
       else
         store_message(@user.errors.full_messages)
         redirect_to edit_user_path
@@ -52,13 +52,13 @@ class UsersController < ApplicationController
       redirect_to new_user_path
     else
       session[:user9487] = serialize(@user)
-      redirect_to user_index_path
+      redirect_to users_path
     end
   end
 
   def logout
     session[:user9487] = nil
-      redirect_to user_index_path
+      redirect_to users_path
   end
 
   def create
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
         @user = User.new(:name => newuser[:name], :email => newuser[:email], :password => newuser[:password])
         if @user.save
           session[:user9487] = serialize(@user)
-          redirect_to user_index_path
+          redirect_to users_path
         else
           # save fail
           store_message(@user.errors.full_messages)
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
     end
     @user.destroy
     session[:user9487] = nil
-    redirect_to user_index_path
+    redirect_to users_path
   end
 
   private

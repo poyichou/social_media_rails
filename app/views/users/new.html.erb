@@ -1,6 +1,6 @@
 <%= render partial: "print_message", locals: { messages: @messages }  %>
 
-<%= form_for @newuser, :url => user_path do |f| %>
+<%= form_for @newuser, :url => users_path do |f| %>
   <%=f.label :name, "User name" %>
   <%=f.text_field :name %>
 
