@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   before_action :load_messages, :only => [:index, :edit, :new]
-  before_action :load_user, :only => [:add_post, :update, :create, :destroy]
+  before_action :load_user, :only => [:index, :edit, :add_post, :update, :create, :destroy]
   def index
-    # has not logged in 
-    if session[:user9487].nil?
+    if @user.nil?
+      # has not logged in 
+      store_user(nil)
       redirect_to new_user_path
     else
-      load_user
       @user_posts = @user.posts
       @post = Post.new
     end
@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   def edit
     # edit password
-    load_user
   end
   
   def new
@@ -123,6 +122,7 @@ class UsersController < ApplicationController
       session[:user9487] = { :name => user.name, :email => user.email, :password => user.password }
     end	
   end
+
   def load_messages
     @messages = session[:message87]
     session[:message87] = nil
