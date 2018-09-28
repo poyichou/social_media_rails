@@ -31,20 +31,27 @@ class UsersController < ApplicationController
   def update
     # update password
     change_content = params.require(:user).permit(:old_password, :new_password, :password_confirm)
+    # check old password
     if change_content[:old_password].eql? session[:user9487]["password"]
+      # check new password and password confirmation
       if change_content[:new_password].eql? change_content[:password_confirm]
+        # all pass, update database
         if @user.update_attributes(password: change_content[:new_password])
+	  # success, update session
 	  session[:user9487]["password"] = change_content[:new_password]
           redirect_to users_path
         else
+	  # update database failed
           store_messages(@user.errors.full_messages)
           redirect_to edit_user_path
         end
       else
+        # check new password and password confirmation failed
         store_messages(["New password and password confirmation not the same"])
         redirect_to edit_user_path
       end
     else
+      # old password incorrect
       store_messages(["Old password not correct!!"])
       redirect_to edit_user_path
     end
@@ -54,7 +61,7 @@ class UsersController < ApplicationController
     loginer = params.require(:user).permit(:name, :password)
     @user = User.where("name = :name AND password = :password", {name: loginer[:name], password: loginer[:password]}).first
     if @user.nil?
-      # note found
+      # not found
       store_messages(["Wrong user name or password"])
       redirect_to new_user_path
     else
