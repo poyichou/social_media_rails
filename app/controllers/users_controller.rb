@@ -31,15 +31,21 @@ class UsersController < ApplicationController
   def update
     # update password
     change_content = params.require(:user).permit(:old_password, :new_password, :password_confirm)
-    if change_content[:new_password].eql? change_content[:password_confirm]
-      if @user.update_attributes(password: change_content[:new_password])
-        redirect_to users_path
+    if change_content[:old_password].eql? session[:user9487]["password"]
+      if change_content[:new_password].eql? change_content[:password_confirm]
+        if @user.update_attributes(password: change_content[:new_password])
+	  session[:user9487]["password"] = change_content[:new_password]
+          redirect_to users_path
+        else
+          store_messages(@user.errors.full_messages)
+          redirect_to edit_user_path
+        end
       else
-        store_messages(@user.errors.full_messages)
+        store_messages(["New password and password confirmation not the same"])
         redirect_to edit_user_path
       end
     else
-      store_messages(["Password and password confirmation not the same"])
+      store_messages(["Old password not correct!!"])
       redirect_to edit_user_path
     end
   end
