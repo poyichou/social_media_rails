@@ -1,24 +1,19 @@
-# Model:  
-## User  
+# Description  
+a social media like web app  
+## function:  
+User can sign up, login, change password, delete his account, show his posts, post articles, delete his posts  
+## model: User and Post  
+### User  
 name:string  
 email:string  
 password:string  
 
 has_many :posts  
-## Post  
+### Post  
 date:date  
 content:string  
   
 belong_to :user  
-# Function:  
-## User  
-sign up  
-login  
-change password  
-delete account  
-show posts  
-post articles  
-delete post  
 # Before using  
 ```bash
 bundle install
