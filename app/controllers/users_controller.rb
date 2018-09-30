@@ -60,8 +60,8 @@ class UsersController < ApplicationController
 
   def login
     loginer = params.require(:user).permit(:name, :password)
-    @user = User.where("name = :name AND password = :password", {name: loginer[:name], password: loginer[:password]}).first
-    if @user.nil?
+    @user = User.where("name = :name", {name: loginer[:name]}).first
+    if @user.nil? or not @user.password.eql? loginer[:password]
       # not found
       store_messages(["Wrong user name or password"])
       redirect_to new_user_path
