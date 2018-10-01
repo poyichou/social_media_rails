@@ -1,24 +1,19 @@
-# README
+# Model:  
+## User  
+name:string  
+email:string  
+password:string  
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+has_many :posts  
+## Post  
+date:date  
+content:string  
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+belong_to :user
+# Function:
+## User
+sign up
+login
+change password
+show posts
+post

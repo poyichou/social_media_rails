@@ -1,0 +1,7 @@
+<% if not messages.nil? %>
+ <ul>
+  <% messages.each do |message| %>
+   <li> <%= "#{message}" %></li>
+  <% end %>
+ </ul>
+<% end %>

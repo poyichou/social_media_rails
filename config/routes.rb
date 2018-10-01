@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :user, except: [:show]
+  post "/user/login", to: "user#login"
+  post "/user/add_post", to: "user#add_post"
+
+  root "user#index"
 end

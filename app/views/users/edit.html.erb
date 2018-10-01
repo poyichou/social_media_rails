@@ -1,0 +1,14 @@
+<%= render partial: "print_message", locals: { messages: @messages }  %>
+
+<%= form_for @user, :url => user_path do |f| %>
+  <%=f.label :old_password, "Old password" %>
+  <%=f.password_field :old_password %>
+
+  <%=f.label :new_password, "New password" %>
+  <%=f.password_field :new_password %>
+
+  <%=f.label :password_confirm, "Confirm password" %>
+  <%=f.password_field :password_confirm %>
+
+  <%= f.submit "Change password" %>
+<% end %>
