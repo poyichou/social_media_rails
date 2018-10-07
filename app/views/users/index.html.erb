@@ -10,12 +10,9 @@ Welcome <%= @user.name %>
 
   <%= f.submit "Post" %>
 <% end %>
-<url>
- <% @user_posts.each do |post| %>
-  <li>
-   [Date: <%= post.created_at %>]
-   <%= simple_format(post.content) %>
-   <%= link_to 'delete this post', delete_post_users_path(post), method: :delete, data: { confirm: "Are you sure to delete this post?" } %>
-  </li><br>
- <% end %>
-</url>
+<% @user_posts.each do |post| %>
+  [Date: <%= post.created_at %>]
+  <%= simple_format(post.content) %>
+  <%= link_to 'delete this post', delete_post_users_path(post), method: :delete, data: { confirm: "Are you sure to delete this post?" } %>
+  <br>
+<% end %>
